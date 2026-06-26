@@ -1,0 +1,30 @@
+{
+  "name": "@jeewallet/util-browser",
+  "version": "0.1.1",
+  "main": "./dist/index.js",
+  "source": "./src/index.ts",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "npm run build -- --watch",
+    "clean": "node scripts/clean.js dist .turbo node_modules",
+    "test": "ts-mocha -p ./tsconfig.json './src/**/*.spec.ts'"
+  },
+  "dependencies": {
+    "@jeewallet/constants": "*",
+    "@jeewallet/types": "*"
+  },
+  "devDependencies": {
+    "@types/mocha": "^8.2.3",
+    "mocha": "^8.0.0",
+    "should": "^13.2.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decentralized-authority/pokt-browser-wallet.git"
+  }
+}

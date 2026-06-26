@@ -1,0 +1,47 @@
+{
+  "name": "jeewallet",
+  "description": "JEE WALLET — browser extension for JEE CRYPTO",
+  "version": "1.0.2",
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/SujayPro/Jee-Wallet-Chrome#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SujayPro/Jee-Wallet-Chrome.git"
+  },
+  "keywords": ["jee", "wallet", "browser-extension", "crypto", "web3", "chrome-extension"],
+  "author": "SujayPro",
+  "scripts": {
+    "dev": "turbo run dev --concurrency 20",
+    "test": "turbo run test",
+    "test:wallet-utils": "turbo run test --filter=@jeewallet/wallet-utils",
+    "test:background": "turbo run test --filter=@jeewallet/background",
+    "test:util": "turbo run test --filter=@jeewallet/util",
+    "build": "turbo run build",
+    "build-ui": "turbo run build-ui",
+    "force-build": "turbo run build --no-cache",
+    "clean": "turbo daemon stop && node clean",
+    "bundle": "turbo run build && turbo run build-ui && turbo run bundle --filter=@jeewallet/extension",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.1",
+    "@turbo/gen": "^1.9.7",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "fs-extra": "^11.1.1",
+    "lodash": "^4.17.21",
+    "prettier": "^2.5.1",
+    "tsup": "^8.0.1",
+    "turbo": "latest"
+  },
+  "packageManager": "npm@9.6.7",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "overrides": {
+    "@tendermint/belt": "github:decentralized-authority/belt#service_worker_runtime_fixes",
+    "@pokt-foundation/pocketjs-provider": "github:decentralized-authority/pocketjs-provider",
+    "@pokt-foundation/pocketjs-utils": "github:decentralized-authority/pocketjs-utils"
+  }
+}

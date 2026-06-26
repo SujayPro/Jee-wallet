@@ -1,0 +1,53 @@
+{
+  "name": "JEE WALLET",
+  "description": "JEE CRYPTO browser wallet for the JEE zero-fee Layer-1.",
+  "version": "1.0.4",
+  "manifest_version": 3,
+  "minimum_chrome_version": "114",
+  "permissions": [
+    "activeTab",
+    "alarms",
+    "downloads",
+    "sidePanel",
+    "storage",
+    "tabs"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "content.js"
+      ],
+      "world": "ISOLATED",
+      "run_at": "document_start"
+    },
+    {
+      "matches": ["<all_urls>"],
+      "js": [
+        "content-bridge.js"
+      ],
+      "world": "MAIN",
+      "run_at": "document_start"
+    }
+  ],
+  "action": {
+    "default_title": "JEE WALLET",
+    "default_icon": {
+      "48": "icon-48.png",
+      "128": "icon-128.png"
+    }
+  },
+  "side_panel": {
+    "default_path": "index.html?mode=sidepanel"
+  },
+  "icons": {
+    "48": "icon-48.png",
+    "128": "icon-128.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  }
+}

@@ -1,0 +1,872 @@
+// JEE Explorer stealth dark theme overrides
+
+$jee-bg: #050505;
+$jee-surface: #0a0a0a;
+$jee-text: #fafafa;
+$jee-purple: #8b5cf6;
+$jee-purple-deep: #6e44ff;
+$jee-border: rgba(255, 255, 255, 0.05);
+$jee-border-strong: rgba(255, 255, 255, 0.10);
+$jee-glass: rgba(255, 255, 255, 0.03);
+$jee-muted: #737373;
+$jee-muted-light: #a3a3a3;
+
+html {
+  background-color: $jee-bg !important;
+}
+
+body {
+  background: $jee-bg !important;
+  color: $jee-text !important;
+  font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-monospace,
+.font-mono {
+  font-family: ui-monospace, "JetBrains Mono", "Cascadia Code", monospace !important;
+}
+
+// Shell
+.jee-shell {
+  background: $jee-bg;
+  color: $jee-text;
+}
+
+.jee-navbar {
+  min-height: 48px;
+  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid $jee-border;
+  background: $jee-bg;
+}
+
+.jee-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: $jee-text !important;
+
+  img {
+    border-radius: 6px;
+  }
+}
+
+.jee-brand-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f5f5f5;
+}
+
+.jee-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.25rem 0.625rem;
+  border-radius: 6px;
+  border: 1px solid $jee-border;
+  background: $jee-glass;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $jee-muted-light;
+}
+
+.jee-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgb(16 185 129 / 0.8);
+  animation: jee-pulse 2s ease-in-out infinite;
+}
+
+@keyframes jee-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
+}
+
+// Page headers
+.jee-page-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #f5f5f5;
+  padding: 0.75rem;
+  margin: 0;
+  border-bottom: 1px solid $jee-border;
+}
+
+.jee-section-label {
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: $jee-muted;
+  padding: 0.75rem 0.75rem 0.5rem;
+  margin: 0;
+}
+
+// Panels & cards
+.jee-panel {
+  background: $jee-surface;
+  border: 1px solid $jee-border;
+  border-radius: 8px;
+  margin: 0.5rem 0.75rem;
+}
+
+.jee-panel-header {
+  padding: 0.75rem;
+  border-bottom: 1px solid $jee-border;
+}
+
+.jee-panel-body {
+  padding: 0.75rem;
+}
+
+// Balance display
+.jee-balance {
+  text-align: center;
+  padding: 1.25rem 0.75rem;
+}
+
+.jee-balance-amount {
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #fff;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.jee-balance-unit {
+  font-size: 1rem;
+  font-weight: 400;
+  color: $jee-muted-light;
+  opacity: 0.75;
+}
+
+.jee-balance-usd {
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 0.875rem;
+  color: $jee-muted;
+  margin-top: 0.25rem;
+}
+
+// Buttons
+.jee-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.625rem 1.5rem;
+  border-radius: 9999px;
+  border: none;
+  background: #fff;
+  color: #000;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.12);
+  transition: transform 0.15s ease, background 0.15s ease;
+
+  &:hover, &:focus {
+    background: #f5f5f5;
+    color: #000;
+    transform: scale(1.02);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    transform: none;
+  }
+}
+
+.jee-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: #e5e5e5;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+
+  &:hover, &:focus {
+    border-color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+  }
+}
+
+.jee-btn-ghost {
+  background: transparent;
+  border: 1px solid $jee-border-strong;
+  color: $jee-muted-light;
+  border-radius: 6px;
+  padding: 0.375rem 0.75rem;
+  font-size: 0.75rem;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #e5e5e5;
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.jee-icon-btn {
+  color: $jee-muted-light;
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.15s, color 0.15s;
+
+  &:hover {
+    color: #fff;
+    opacity: 1;
+  }
+}
+
+// Forms
+.jee-input,
+.form-control,
+.form-select {
+  background: $jee-glass !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 8px !important;
+  color: #d4d4d4 !important;
+  font-size: 0.875rem;
+
+  &::placeholder {
+    color: $jee-muted !important;
+  }
+
+  &:focus {
+    border-color: rgba(255, 255, 255, 0.14) !important;
+    box-shadow: none !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+  }
+}
+
+.form-label {
+  display: block;
+  width: 100%;
+  font-family: ui-monospace, "JetBrains Mono", monospace;
+  font-size: 0.625rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: $jee-muted !important;
+  margin-bottom: 0.375rem;
+  text-align: left;
+}
+
+.jee-auth-page {
+  display: flex;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 1.5rem 1rem !important;
+  overflow-y: auto;
+  width: 100%;
+  min-height: 100%;
+}
+
+.jee-auth-card {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.jee-auth-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
+
+.jee-auth-copy {
+  font-size: 0.8125rem;
+  color: $jee-muted-light;
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+.jee-auth-form {
+  width: 100%;
+}
+
+.jee-auth-field {
+  margin-bottom: 1rem;
+  width: 100%;
+
+  .form-control {
+    width: 100%;
+    display: block;
+  }
+}
+
+.jee-auth-check {
+  margin-top: 0.5rem;
+
+  .form-check-label {
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    color: $jee-muted-light;
+  }
+}
+
+// Side panel: keep auth forms full width
+.jee-side-main-content {
+  .jee-auth-page {
+    padding: 1rem !important;
+  }
+
+  .jee-auth-card {
+    max-width: 100%;
+  }
+}
+
+.jee-table {
+  width: 100%;
+  margin: 0;
+
+  thead th {
+    font-family: ui-monospace, "JetBrains Mono", monospace;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: $jee-muted;
+    border-bottom: 1px solid $jee-border;
+    padding: 0.5rem 0.75rem;
+    font-weight: 600;
+  }
+
+  tbody td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    font-size: 0.8125rem;
+    color: #d4d4d4;
+  }
+
+  tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+  }
+
+  tbody tr.jee-row-active td {
+    background: rgba(139, 92, 246, 0.08);
+  }
+
+  a {
+    color: #d4d4d4;
+    text-decoration: none;
+
+    &:hover {
+      color: $jee-purple;
+    }
+  }
+}
+
+// Dropdown menus
+.dropdown-menu {
+  background: $jee-surface !important;
+  border: 1px solid $jee-border !important;
+  border-radius: 8px !important;
+  padding: 0.25rem !important;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85) !important;
+}
+
+.dropdown-item {
+  color: #d4d4d4 !important;
+  border-radius: 6px;
+  font-size: 0.8125rem;
+  padding: 0.5rem 0.75rem !important;
+
+  &:hover, &:focus {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #fff !important;
+  }
+
+  &.disabled {
+    color: $jee-muted !important;
+  }
+}
+
+.dropdown-divider {
+  border-color: $jee-border !important;
+}
+
+// Tx status colors
+.jee-tx-received { color: rgb(52 211 153 / 0.9) !important; }
+.jee-tx-sent { color: rgb(248 113 113 / 0.9) !important; }
+
+// Override legacy gradients
+.nw-bg-gradient-vertical,
+.nw-bg-gradient-horizontal {
+  background: $jee-bg !important;
+  background-image: none !important;
+}
+
+.card {
+  background: $jee-surface !important;
+  border: 1px solid $jee-border !important;
+  border-radius: 8px !important;
+}
+
+.card-header {
+  background: transparent !important;
+  border-bottom: 1px solid $jee-border !important;
+}
+
+.table {
+  --bs-table-bg: transparent;
+  --bs-table-color: #d4d4d4;
+  --bs-table-border-color: rgba(255, 255, 255, 0.03);
+  --bs-table-hover-bg: rgba(255, 255, 255, 0.02);
+  --bs-table-active-bg: rgba(139, 92, 246, 0.08);
+}
+
+.btn-primary {
+  background: #fff !important;
+  border-color: #fff !important;
+  color: #000 !important;
+  border-radius: 9999px !important;
+  font-weight: 700 !important;
+
+  &:hover {
+    background: #f5f5f5 !important;
+    border-color: #f5f5f5 !important;
+    color: #000 !important;
+  }
+}
+
+.btn-outline-primary {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #e5e5e5 !important;
+  border-radius: 9999px !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #fff !important;
+  }
+}
+
+.btn-outline-success {
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #e5e5e5 !important;
+  border-radius: 9999px !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #fff !important;
+  }
+}
+
+.btn-secondary {
+  border-radius: 9999px !important;
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: #e5e5e5 !important;
+}
+
+.navbar {
+  border-bottom: 1px solid $jee-border;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #f5f5f5;
+}
+
+.text-muted {
+  color: $jee-muted !important;
+}
+
+.text-success {
+  color: rgb(52 211 153 / 0.9) !important;
+}
+
+.text-danger {
+  color: rgb(248 113 113 / 0.9) !important;
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+// Hero accent bar (explorer style)
+.jee-hero-bars {
+  display: flex;
+  gap: 3px;
+  height: 24px;
+  margin: 0.5rem 0.75rem 0;
+}
+
+.jee-hero-bar {
+  flex: 1;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, $jee-purple 0%, $jee-purple-deep 50%, transparent 100%);
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+  animation: jee-bar-pulse 3s ease-in-out infinite;
+
+  &:nth-child(2) { animation-delay: 0.3s; }
+  &:nth-child(3) { animation-delay: 0.6s; }
+}
+
+// Side panel layout (Keplr / MetaMask style)
+.jee-side-layout {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  background: $jee-bg;
+}
+
+.jee-side-nav {
+  display: flex;
+  flex-direction: column;
+  width: 72px;
+  min-width: 72px;
+  border-right: 1px solid $jee-border;
+  background: $jee-bg;
+  padding: 0.75rem 0;
+  align-items: center;
+}
+
+.jee-side-nav-brand {
+  margin-bottom: 1rem;
+  img { border-radius: 6px; }
+}
+
+.jee-side-nav-items {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  width: 100%;
+  padding: 0 0.375rem;
+}
+
+.jee-side-nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.25rem;
+  border-radius: 8px;
+  color: $jee-muted;
+  text-decoration: none;
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: background 0.15s, color 0.15s;
+
+  i { font-size: 1.25rem; }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #e5e5e5;
+  }
+
+  &--active {
+    background: rgba(139, 92, 246, 0.12);
+    color: $jee-purple;
+  }
+}
+
+.jee-side-nav-footer {
+  font-size: 0.5625rem;
+  color: $jee-muted;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.jee-side-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  min-height: 100vh;
+}
+
+.jee-side-main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+
+  > .jee-shell,
+  > .position-absolute {
+    position: relative !important;
+    flex: 1;
+    height: auto !important;
+    min-height: 0;
+  }
+}
+
+.jee-sync-btn {
+  padding: 0.25rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  line-height: 1;
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.jee-sync-btn--active i {
+  animation: jee-spin 0.8s linear infinite;
+}
+
+@keyframes jee-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.jee-copy-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.jee-copied-tip {
+  position: absolute;
+  right: calc(100% + 6px);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.45rem;
+  border-radius: 9999px;
+  background: #171717;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #d4d4d4;
+  font-size: 0.625rem;
+  font-weight: 500;
+  white-space: nowrap;
+  pointer-events: none;
+  animation: jee-copied-fade 1.4s ease forwards;
+  z-index: 5;
+
+  i {
+    font-size: 0.625rem;
+    opacity: 0.7;
+  }
+}
+
+@keyframes jee-copied-fade {
+  0%, 70% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+// SweetAlert (v2) — explorer-style dark dialogs
+// NOTE: the installed `sweetalert` package is v2, which renders `.swal-*`
+// class names (NOT the v1 `.sweet-alert` / `.sa-*` names). Target those.
+.swal-overlay {
+  background: rgba(0, 0, 0, 0.78) !important;
+}
+
+.swal-modal {
+  background: #0a0a0a !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  padding: 1.5rem 1.25rem 1rem !important;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.55) !important;
+  width: auto !important;
+  max-width: 22rem !important;
+}
+
+.swal-title {
+  color: #fafafa !important;
+  font-size: 1.1rem !important;
+  font-weight: 600 !important;
+  margin: 0.25rem 0 0.5rem !important;
+  padding: 0 !important;
+}
+
+.swal-text {
+  color: #a3a3a3 !important;
+  font-size: 0.8125rem !important;
+  line-height: 1.5 !important;
+  text-align: center !important;
+  white-space: pre-line;
+}
+
+.swal-content {
+  margin-top: 0.5rem !important;
+  padding: 0 !important;
+}
+
+// The typed text was invisible (white on white) because this selector never
+// matched the v2 DOM. Light text on the dark field fixes it.
+.swal-content__input {
+  background: #141414 !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #fafafa !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  padding: 0.55rem 0.75rem !important;
+  font-size: 0.875rem !important;
+
+  &::placeholder {
+    color: #737373 !important;
+  }
+
+  &:focus {
+    border-color: rgba(139, 92, 246, 0.5) !important;
+    box-shadow: none !important;
+  }
+}
+
+.swal-footer {
+  text-align: center !important;
+  margin-top: 1rem !important;
+  padding: 0 !important;
+  border-top: none !important;
+}
+
+.swal-button-container {
+  margin: 0 0.25rem !important;
+}
+
+.swal-button {
+  border-radius: 9999px !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1.4rem !important;
+  box-shadow: none !important;
+
+  &:focus {
+    box-shadow: none !important;
+  }
+}
+
+.swal-button--confirm,
+.swal-button.jee-swal-btn--primary {
+  background: #fafafa !important;
+  color: #0a0a0a !important;
+
+  &:hover {
+    background: #e5e5e5 !important;
+  }
+}
+
+.swal-button--cancel,
+.swal-button.jee-swal-btn--ghost {
+  background: transparent !important;
+  color: #a3a3a3 !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    color: #fafafa !important;
+  }
+}
+
+// Status icons — tuned for the dark surface
+.swal-icon--warning { border-color: #f59e0b !important; }
+.swal-icon--warning__body,
+.swal-icon--warning__dot { background-color: #f59e0b !important; }
+
+.swal-icon--success__line { background-color: #34d399 !important; }
+.swal-icon--success__ring { border-color: rgba(52, 211, 153, 0.35) !important; }
+.swal-icon--success::before,
+.swal-icon--success::after,
+.swal-icon--success__hide-corners { background: #0a0a0a !important; }
+
+.swal-icon--error { border-color: #f87171 !important; }
+.swal-icon--error__line { background-color: #f87171 !important; }
+
+.swal-icon--info { border-color: #8b5cf6 !important; color: #8b5cf6 !important; }
+
+// Secret reveal (seed phrase / private key) dialog content
+.jee-secret-reveal {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+}
+
+.jee-secret-note {
+  color: #a3a3a3;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.jee-secret-box {
+  background: #141414;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fafafa;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+  padding: 0.75rem 0.85rem;
+  word-break: break-word;
+  text-align: center;
+  user-select: all;
+}
+
+.jee-secret-copy {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: #d4d4d4;
+  border-radius: 9999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+
+  i { font-size: 0.9rem; }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
+
+  &--done {
+    background: rgba(52, 211, 153, 0.12);
+    border-color: rgba(52, 211, 153, 0.4);
+    color: #34d399;
+    transform: scale(1.03);
+  }
+}
+
+.jee-brand:not(:has(img)) .jee-brand-title {
+  margin-left: 0;
+}
