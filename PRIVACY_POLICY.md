@@ -1,75 +1,25 @@
-# Privacy Policy
+# JEE Wallet Privacy Policy
 
-**Last updated: June 25, 2026**
+**Last updated:** June 2026
 
-## Overview
+JEE Wallet is a non-custodial browser extension. Your keys, seed phrases, and wallet data stay on your device.
 
-JEE Wallet is a non-custodial browser extension wallet for the JEE blockchain. This policy is short because there is almost nothing to say — we do not collect, store, or have access to any of your data.
+## What we collect
 
----
+**Nothing.** JEE Wallet does not collect, store, or transmit personal data to JEE Wallet developers or third-party analytics services.
 
-## What We Collect
+## Local storage
 
-**Nothing.**
+The extension stores encrypted wallet data locally in your browser using Chrome's extension storage APIs. This data never leaves your device except when you explicitly send a transaction or sign a message on the JEE network.
 
-We do not collect:
-- Your name, email, or any personal information
-- Your IP address
-- Your wallet address or balance
-- Your transaction history
-- Your browsing activity
-- Cookies or tracking data
-- Analytics or usage statistics
-- Any information whatsoever
+## Third-party services
 
----
+When you use the wallet, it may contact public JEE network endpoints (RPC/LCD) and optional price APIs to show balances and transaction history. Those requests go directly from your browser to those services; we do not proxy or log them.
 
-## Where Your Data Lives
+## dApp connections
 
-All wallet data — including your encrypted private keys, seed phrases, account settings, and transaction history — is stored **exclusively on your own device** using your browser's local storage.
-
-Your data is encrypted with AES-256-GCM using a key derived from your password. Only you know your password. We do not have it. We cannot recover it. We have no access to your encrypted data.
-
----
-
-## What Leaves Your Device
-
-The only network requests made by JEE Wallet are:
-
-- **Blockchain RPC/LCD calls** — sent directly to JEE blockchain nodes (e.g. `api.jee.money`, `rpc.jee.money`) to fetch balances and broadcast transactions. These are standard blockchain operations initiated by you. We do not operate a proxy or intermediary server that sees these requests.
-
-That's it. No data is sent to us or any third party.
-
----
-
-## Third Parties
-
-We do not use:
-- Analytics services (no Google Analytics, Mixpanel, etc.)
-- Advertising networks
-- Crash reporting tools
-- Any third-party SDK that collects data
-
----
-
-## Children
-
-This extension is not directed at children under 16. Since we collect no data, no special handling applies.
-
----
-
-## Open Source
-
-JEE Wallet is fully open source. You can verify every claim in this policy by reading the source code yourself.
-
----
-
-## Changes
-
-If this policy ever changes in a meaningful way (e.g. if we ever add any data collection), we will update this document and the "Last updated" date above.
-
----
+When you connect to a website, the extension shares only what you approve (for example, your public address or a signed message). Connection approvals are stored locally on your device.
 
 ## Contact
 
-Questions? Email us at: **hello@jee.money**
+Questions or privacy concerns: **hello@jee.money**

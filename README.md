@@ -3,6 +3,9 @@
 A secure, non-custodial browser extension wallet for the **JEE blockchain** — a zero-fee Layer-1 network.
 
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-SujayPro%2FJee--Wallet--Chrome-181717?logo=github)](https://github.com/SujayPro/Jee-Wallet-Chrome)
+
+**Repository:** [github.com/SujayPro/Jee-Wallet-Chrome](https://github.com/SujayPro/Jee-Wallet-Chrome)
 
 ---
 
@@ -176,3 +179,7 @@ JEE Wallet collects zero user data. See [PRIVACY_POLICY.md](PRIVACY_POLICY.md) f
 ## License
 
 [Apache License 2.0](LICENSE)
+
+JEE Wallet is open source. You may use, modify, and distribute it under the terms of the Apache 2.0 license.
+
+This project is derived from [NodeWallet](https://github.com/decentralized-authority/nodewallet) (Decentralized Authority). See [NOTICE](NOTICE) for attribution.

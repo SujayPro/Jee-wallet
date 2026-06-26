@@ -1,0 +1,42 @@
+{
+  "name": "@jeewallet/react-sdk",
+  "version": "0.1.5",
+  "main": "./dist/index.js",
+  "source": "./src/index.tsx",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/",
+    "src/",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.tsx --format cjs,esm --dts",
+    "dev": "npm run build -- --watch",
+    "clean": "node scripts/clean.js dist .turbo node_modules",
+    "lint": "eslint \"src/**/*.ts*\"",
+    "test": "jest"
+  },
+  "jest": {
+    "preset": "jest-presets/jest/node"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.18",
+    "@types/react-dom": "^18.2.7",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "*",
+    "fs-extra": "^11.1.1",
+    "react": "^18.2.0",
+    "tsconfig": "*",
+    "tsup": "^5.10.1",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@jeewallet/sdk": "*",
+    "@jeewallet/ui": "*",
+    "react": "^18.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/decentralized-authority/pokt-browser-wallet.git"
+  }
+}

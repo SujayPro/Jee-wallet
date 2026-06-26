@@ -1,0 +1,70 @@
+export enum BackgroundListener {
+  GET_LOGS = 'GET_LOGS',
+  GENERATE_MNEMONIC = 'GENERATE_MNEMONIC',
+}
+
+export enum LocalStorageKey {
+  LOGS = 'LOGS',
+  USER_ACCOUNT = 'USER_ACCOUNT',
+  HASH_SETTINGS = 'HASH_SETTINGS',
+  KEY_SALT = 'KEY_SALT',
+  ENCRYPTION_SETTINGS = 'ENCRYPTION_SETTINGS',
+  SELECTED_CHAIN = 'SELECTED_CHAIN',
+  ACTIVE_ACCOUNT = 'ACTIVE_ACCOUNT',
+  JEE_MAINNET_LCD = 'JEE_MAINNET_LCD',
+  JEE_MAINNET_RPC = 'JEE_MAINNET_RPC',
+  JEE_TESTNET_LCD = 'JEE_TESTNET_LCD',
+  JEE_TESTNET_RPC = 'JEE_TESTNET_RPC',
+  /** Compact local tx log — hash/amount/direction only, no keys */
+  TX_LOG = 'TX_LOG',
+  /** Last known balances per account id */
+  BALANCE_LOG = 'BALANCE_LOG',
+  /** @deprecated use JEE_MAINNET_LCD */
+  POKT_MAINNET_ENDPOINT = 'JEE_MAINNET_LCD',
+  /** @deprecated use JEE_TESTNET_LCD */
+  POKT_TESTNET_ENDPOINT = 'JEE_TESTNET_LCD',
+}
+export enum SessionStorageKey {
+  USER_ACCOUNT = 'USER_ACCOUNT',
+  USER_KEY = 'USER_KEY',
+  ENCRYPTION_SETTINGS = 'ENCRYPTION_SETTINGS',
+  BALANCES = 'BALANCES',
+  TRANSACTIONS = 'TRANSACTIONS',
+  PRICING_MULTIPLIERS = 'PRICING_MULTIPLIERS',
+  OPEN_WINDOW_IDS = 'OPEN_WINDOW_IDS',
+}
+
+export enum CoinType {
+  JEE = 'JEE',
+  /** @deprecated use JEE */
+  POKT = 'JEE',
+  ETH = 'ETH',
+}
+export enum ChainType {
+  MAINNET = 'MAINNET',
+  TESTNET = 'TESTNET',
+}
+export enum KeyType {
+  ED25519 = 'ED25519',
+  SECP256K1 = 'SECP256K1',
+}
+
+export enum AppLang {
+  en = 'en',
+}
+
+export enum UserStatus {
+  NOT_REGISTERED = 'NOT_REGISTERED',
+  LOCKED = 'LOCKED',
+  UNLOCKED = 'UNLOCKED',
+}
+
+export enum AlarmName {
+  LOCK_USER_ACCOUNT = 'LOCK_USER_ACCOUNT',
+}
+
+export const POPUP_WIDTH = 400;
+export const POPUP_HEIGHT = 600;
+
+export const defaultHideTestnets = false;
+export const defaultLockTimeout = 5; // in minutes

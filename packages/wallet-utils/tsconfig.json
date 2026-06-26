@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2015", "DOM"],
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "target": "ES2015"
+  },
+  "exclude": [
+    "node_modules",
+    "src/**/*.spec.ts",
+    "src/coin-utils/pokt-utils.ts",
+    "src/key-utils/ed25519.ts",
+    "src/key-utils/ed25519.spec.ts",
+    "src/key-utils/secp256k1.spec.ts"
+  ],
+  "extends": "../tsconfig/base.json",
+  "include": ["src"]
+}
