@@ -365,6 +365,21 @@ about:debugging  →  Load Temporary Add-on  →  dist/manifest.json
 
 **Firefox sidebar:** `View → Sidebar → JEE WALLET`
 
+### Firefox Add-ons (AMO) submission
+
+After `npm run bundle`, upload **`apps/extension/dist.zip`** to the [Firefox Developer Hub](https://addons.mozilla.org/developers/). Do **not** zip the `dist/` folder yourself — the bundle script packs `manifest.json` at the archive root and splits the background script into chunks under AMO's 5 MB per-file limit.
+
+| Item | Value |
+|:---|:---|
+| Upload file | `apps/extension/dist.zip` |
+| Distribution | **On this site** (public AMO listing) |
+| Categories | **Privacy & Security**, **Web Development** |
+| Data collection | **None** (`data_collection_permissions.required: ["none"]` in manifest) |
+| Privacy policy | [PRIVACY_POLICY.md](PRIVACY_POLICY.md) |
+| Source code | Submit the GitHub repo + build notes (`npm run bundle`) |
+
+**Build notes for reviewers:** the background bundle is split into `bg-vendors-*.js` chunks plus `background.js`. Firefox loads them via `background.scripts`; Chrome uses an auto-generated `sw.js` that calls `importScripts()`. Minified-code warnings (`eval`, `Function`, `innerHTML`) come from bundled React/crypto dependencies — no remote code is loaded at runtime.
+
 ---
 
 ## 🛠 Tech Stack
@@ -519,7 +534,8 @@ Encrypted in extension local storage. Session keys (unlocked state) live in exte
 - [x] dApp connect / sign / send
 - [x] Firefox sidebar panel
 - [ ] Chrome Web Store listing
-- [ ] Firefox Add-ons (AMO) listing
+- [x] Firefox Add-ons (AMO) submission-ready build (`dist.zip`, manifest compliance)
+- [ ] Firefox Add-ons (AMO) public listing approved
 - [ ] Hardware wallet support
 - [ ] Mobile companion app
 - [ ] Multi-language UI
@@ -561,6 +577,8 @@ Built by [SujayPro](https://github.com/SujayPro) · [Sujay@jee.money](mailto:Suj
 [Apache License 2.0](LICENSE)
 
 JEE Wallet is open source — use, modify, and distribute under Apache 2.0 terms.
+
+Derived from [NodeWallet](https://github.com/decentralized-authority/nodewallet) (Decentralized Authority). See [NOTICE](NOTICE).
 
 ---
 
