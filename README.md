@@ -578,8 +578,6 @@ Built by [SujayPro](https://github.com/SujayPro) · [Sujay@jee.money](mailto:Suj
 
 JEE Wallet is open source — use, modify, and distribute under Apache 2.0 terms.
 
-Derived from [NodeWallet](https://github.com/decentralized-authority/nodewallet) (Decentralized Authority). See [NOTICE](NOTICE).
-
 ---
 
 <div align="center">
