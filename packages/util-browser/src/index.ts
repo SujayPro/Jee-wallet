@@ -2,6 +2,7 @@ import { CryptoAccount, UserAccount } from '@jeewallet/types';
 import { ChainType, CoinType } from '@jeewallet/constants';
 import { AccountDetailParams } from './routes';
 
+export * from './browser-api';
 export * from './messager';
 export * from './routes';
 export * from './api-response';

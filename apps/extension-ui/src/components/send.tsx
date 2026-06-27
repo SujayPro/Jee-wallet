@@ -6,7 +6,7 @@ import { ErrorHandlerContext } from '../hooks/error-handler-context';
 import { Container } from './shared/container';
 import { BalanceCard } from './shared/balance-card';
 import * as math from 'mathjs';
-import { findCryptoAccountInUserAccountByAddress, isApiError, isJeeAddress, RouteBuilder, SendParams } from '@jeewallet/util-browser';
+import { ext, findCryptoAccountInUserAccountByAddress, isApiError, isJeeAddress, RouteBuilder, SendParams } from '@jeewallet/util-browser';
 import { setAccountBalances, setAccountTransactions } from '../reducers/app-reducer';
 import { jeeConfirm, jeeSuccess, jeeError } from '../modules/jee-dialog';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -146,12 +146,12 @@ export const Send = () => {
           dispatch(setAccountTransactions({ accountTransactions: transactionsRes.result }));
         }
         // ToDo move to api
-        await chrome.runtime.sendMessage({
+        await ext.runtime.sendMessage({
           type: 'txid',
           payload: res.result.txid,
         });
         await jeeSuccess(
-          'Transaction sent',
+          'Transaction successful',
           `Your transaction has been submitted to the network.\n\n${res.result.txid}`,
         );
         if(fromContentScript) {

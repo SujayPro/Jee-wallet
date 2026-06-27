@@ -6,7 +6,7 @@ import { ErrorHandlerContext } from '../hooks/error-handler-context';
 import { Container } from './shared/container';
 import { BalanceCard } from './shared/balance-card';
 import * as math from 'mathjs';
-import { findCryptoAccountInUserAccountByAddress, isHex, RouteBuilder, StakeParams } from '@jeewallet/util-browser';
+import { ext, findCryptoAccountInUserAccountByAddress, isHex, RouteBuilder, StakeParams } from '@jeewallet/util-browser';
 import swal from 'sweetalert';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { calledFromContentScript, truncateAddress } from '../util';
@@ -169,7 +169,7 @@ export const Stake = () => {
         }
       } else if(res.result.txid) {
         // ToDo move to api
-        await chrome.runtime.sendMessage({
+        await ext.runtime.sendMessage({
           type: 'txid',
           payload: res.result.txid,
         });

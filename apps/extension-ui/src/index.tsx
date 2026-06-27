@@ -9,7 +9,7 @@ import { ErrorHandlerContext } from './hooks/error-handler-context';
 import { ErrorHandler } from './modules/error-handler';
 import { ApiContext } from './hooks/api-context';
 import { API } from './modules/api';
-import { Messager, RouteBuilder } from '@jeewallet/util-browser';
+import { ext, Messager, RouteBuilder } from '@jeewallet/util-browser';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
 import { TOS } from './components/tos';
 import { ErrorView } from './components/error-view';
@@ -30,7 +30,7 @@ window.Buffer = Buffer;
 const start = () => {
 
   const errorHandler = new ErrorHandler();
-  const messager = new Messager(chrome.runtime);
+  const messager = new Messager(ext.runtime);
 
   const router = createHashRouter([
     {

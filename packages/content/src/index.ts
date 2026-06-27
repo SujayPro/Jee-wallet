@@ -1,6 +1,6 @@
 import { PocketNetwork } from './pocket-network';
 import { API } from './api';
-import { Messager } from '@jeewallet/util-browser';
+import { ext, Messager } from '@jeewallet/util-browser';
 
 declare global {
   interface Window {
@@ -10,7 +10,7 @@ declare global {
 }
 
 export const startContent = () => {
-  const messager = new Messager(chrome.runtime);
+  const messager = new Messager(ext.runtime);
   const api = new API(messager);
   const pocketNetwork = new PocketNetwork(api);
 

@@ -6,6 +6,7 @@ import { Container } from './components/shared/container';
 import { RootState } from './store';
 import { MAX_BODY_WIDTH } from './constants';
 import $ from 'jquery';
+import { ext } from '@jeewallet/util-browser';
 import { calledFromContentScript, isFullTab, isSidePanel, isTab } from './util';
 import {
   setAccountBalances, setAccountTransactions,
@@ -65,7 +66,7 @@ export const App = () => {
       });
     }
 
-    chrome.storage.local.get([LocalStorageKey.SELECTED_CHAIN])
+    ext.storage.local.get([LocalStorageKey.SELECTED_CHAIN])
       .then((res) => {
         dispatch(setActiveChain({
           activeChain: res[LocalStorageKey.SELECTED_CHAIN] || ChainType.MAINNET,
@@ -164,7 +165,7 @@ export const App = () => {
   }, [dispatch, api, errorHandler, location.pathname, navigate, fromContent]);
 
   useEffect(() => {
-    chrome.storage.session.get([SessionStorageKey.PRICING_MULTIPLIERS])
+    ext.storage.session.get([SessionStorageKey.PRICING_MULTIPLIERS])
       .then((res) => {
         if(res) {
           dispatch(setPricingMultipliers({
@@ -175,7 +176,7 @@ export const App = () => {
       .catch((err) => errorHandler.handle(err));
     const pricing = new Pricing();
     const listener = (multipliers: PricingMultipliers) => {
-      chrome.storage.session.set({
+      ext.storage.session.set({
         [SessionStorageKey.PRICING_MULTIPLIERS]: multipliers,
       }).catch(err => errorHandler.handle(err));
       dispatch(setPricingMultipliers({pricingMultipliers: multipliers}));

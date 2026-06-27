@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { BalanceCard } from './shared/balance-card';
 import { Container } from './shared/container';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { findCryptoAccountInUserAccountByAddress, RouteBuilder, SignParams } from '@jeewallet/util-browser';
+import { ext, findCryptoAccountInUserAccountByAddress, RouteBuilder, SignParams } from '@jeewallet/util-browser';
 import { ApiContext } from '../hooks/api-context';
 import { ErrorHandlerContext } from '../hooks/error-handler-context';
 import { useSelector } from 'react-redux';
@@ -83,7 +83,7 @@ export const Sign = () => {
       } else if(res.result.signature) {
         if(fromContentScript) {
           // ToDo move to api
-          await chrome.runtime.sendMessage({
+          await ext.runtime.sendMessage({
             type: 'signature',
             payload: res.result.signature,
           });

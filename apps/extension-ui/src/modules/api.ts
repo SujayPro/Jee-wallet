@@ -52,7 +52,7 @@ import {
   ValidateMnemonicParams,
   ValidateMnemonicResult,
 } from '@jeewallet/types';
-import { Messager } from '@jeewallet/util-browser';
+import { ext, Messager } from '@jeewallet/util-browser';
 
 export class API implements ClientAPI {
 
@@ -181,7 +181,7 @@ export class API implements ClientAPI {
 
   async getVersion(): Promise<GetVersionResult> {
     try {
-      const manifest = chrome.runtime.getManifest();
+      const manifest = ext.runtime.getManifest();
       return {
         result: manifest.version,
       };
