@@ -1,3 +1,4 @@
+import { ext } from '@jeewallet/util-browser';
 import LocalStorageArea = chrome.storage.LocalStorageArea;
 import StorageArea = chrome.storage.StorageArea;
 
@@ -31,7 +32,7 @@ export class StorageManager {
 
   storage: StorageArea;
 
-  constructor(storage = chrome.storage.local) {
+  constructor(storage = ext.storage.local) {
     this.storage = storage;
   }
 

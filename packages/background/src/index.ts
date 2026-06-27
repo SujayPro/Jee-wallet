@@ -97,6 +97,7 @@ import {
 } from '@jeewallet/types';
 import {
   getHostFromOrigin,
+  ext,
   Messager,
   prepMnemonic,
   RouteBuilder
@@ -222,15 +223,15 @@ const getRpcEndpoint = async (network: CoinType, chain: ChainType): Promise<stri
 };
 
 const openTosTab = async () => {
-  await chrome.tabs.create({
+  await ext.tabs.create({
     active: true,
-    url: chrome.runtime.getURL(`index.html#${RouteBuilder.tos.fullPath()}`),
+    url: ext.runtime.getURL(`index.html#${RouteBuilder.tos.fullPath()}`),
   });
 };
 const openNewWalletTab = async () => {
-  await chrome.tabs.create({
+  await ext.tabs.create({
     active: true,
-    url: chrome.runtime.getURL(`index.html#${RouteBuilder.selectNewWalletType.fullPath()}`),
+    url: ext.runtime.getURL(`index.html#${RouteBuilder.selectNewWalletType.fullPath()}`),
   });
 };
 const generateCryptoAccountId = (network: CoinType, chain: ChainType, address: string): string => {
@@ -247,16 +248,16 @@ const splitCryptoAccountId = (accountId: string): {network: CoinType, chain: Cha
 
 dayjs.extend(utc);
 
-const messager = new Messager(chrome.runtime, true);
+const messager = new Messager(ext.runtime, true);
 
-const storageManager = new StorageManager(chrome.storage.local);
-const sessionManager = new StorageManager(chrome.storage.session);
+const storageManager = new StorageManager(ext.storage.local);
+const sessionManager = new StorageManager(ext.storage.session);
 
 let loggerInstance: Logger|null = null;
 
 const getLogger = (): Logger => {
   if(!loggerInstance) {
-    loggerInstance = new Logger(chrome.storage.local);
+    loggerInstance = new Logger(ext.storage.local);
   }
   return loggerInstance;
 };
@@ -313,7 +314,7 @@ export const startBackground = () => {
 
   const withServiceWorkerKeepAlive = async <T>(work: () => Promise<T>): Promise<T> => {
     const tick = () => {
-      chrome.runtime.getPlatformInfo().catch(() => {});
+      ext.runtime.getPlatformInfo().catch(() => {});
     };
     tick();
     const interval = setInterval(tick, 20_000);
@@ -472,9 +473,9 @@ export const startBackground = () => {
     const userAccount = await getUserAccount();
     if(userAccount) {
       const timeout = isNumber(userAccount.settings.lockTimeout) ? userAccount.settings.lockTimeout : defaultLockTimeout;
-      chrome.alarms.clear(AlarmName.LOCK_USER_ACCOUNT)
+      ext.alarms.clear(AlarmName.LOCK_USER_ACCOUNT)
         .then(() => {
-          chrome.alarms.create(AlarmName.LOCK_USER_ACCOUNT, {
+          ext.alarms.create(AlarmName.LOCK_USER_ACCOUNT, {
             delayInMinutes: timeout,
           }).catch(err => {
             console.error(err);
@@ -1090,20 +1091,20 @@ export const startBackground = () => {
       chainId: cryptoAccount.chain,
       address: cryptoAccount.address,
     });
-    const url = chrome.runtime.getURL(`index.html#${urlPath}?amount=${encodeURIComponent(Number(amount) / 1000000)}&operator=${encodeURIComponent(operatorPublicKey)}${chains.length > 0 ? `&chains=${encodeURIComponent(chains.join(','))}` : ''}&serviceurl=${encodeURIComponent(serviceURL)}&content=true`);
+    const url = ext.runtime.getURL(`index.html#${urlPath}?amount=${encodeURIComponent(Number(amount) / 1000000)}&operator=${encodeURIComponent(operatorPublicKey)}${chains.length > 0 ? `&chains=${encodeURIComponent(chains.join(','))}` : ''}&serviceurl=${encodeURIComponent(serviceURL)}&content=true`);
     const popup = await createPopupWindow(url);
     let txid = '';
     const txidListener = (message: {type: string, payload: string}, sender: MessageSender) => {
       const { type, payload } = message;
       if(sender.tab?.windowId === popup.id && type === 'txid') {
-        chrome.runtime.onMessage.removeListener(txidListener);
+        ext.runtime.onMessage.removeListener(txidListener);
         txid = payload;
       }
     };
-    chrome.runtime.onMessage.addListener(txidListener);
+    ext.runtime.onMessage.addListener(txidListener);
     await waitForWindowClose(popup);
     if(!txid) {
-      chrome.runtime.onMessage.removeListener(txidListener);
+      ext.runtime.onMessage.removeListener(txidListener);
       throw new Error('Transaction cancelled.');
     }
     return {
@@ -1266,7 +1267,7 @@ export const startBackground = () => {
   });
 
   messager.register(APIEvent.SAVE_FILE, async ({ filename, url }: SaveFileParams): Promise<void> => {
-    await chrome.downloads.download({
+    await ext.downloads.download({
       saveAs: true,
       url,
       filename,
@@ -1279,7 +1280,7 @@ export const startBackground = () => {
     // pages — must NOT be able to silently self-authorize an origin by sending
     // this message directly to the background.
     const senderUrl = sender.url || '';
-    const extensionOrigin = chrome.runtime.getURL('').replace(/\/$/, '');
+    const extensionOrigin = ext.runtime.getURL('').replace(/\/$/, '');
     if (!senderUrl.startsWith(extensionOrigin)) {
       throw new Error('Unauthorized: CONNECT_SITE can only be called from the extension UI.');
     }
@@ -1331,7 +1332,7 @@ export const startBackground = () => {
   messager.register(APIEvent.DISCONNECT_SITE, async ({ origin = '' }: DisconnectSiteParams, sender): Promise<DisconnectSiteResult> => {
     // Security: only the extension's own UI can disconnect a site.
     const senderUrl = sender.url || '';
-    const extensionOrigin = chrome.runtime.getURL('').replace(/\/$/, '');
+    const extensionOrigin = ext.runtime.getURL('').replace(/\/$/, '');
     if (!senderUrl.startsWith(extensionOrigin)) {
       throw new Error('Unauthorized: DISCONNECT_SITE can only be called from the extension UI.');
     }
@@ -1356,7 +1357,7 @@ export const startBackground = () => {
     if(!userAccount) {
       throw new Error('User account locked.');
     }
-    const [ tab ] = await chrome.tabs.query({
+    const [ tab ] = await ext.tabs.query({
       active: true,
       lastFocusedWindow: true,
     });
@@ -1457,17 +1458,17 @@ export const startBackground = () => {
     for(const id of openWindowIds) {
       try {
         // close any previously opened NW windows
-        await chrome.windows.remove(id);
+        await ext.windows.remove(id);
       } catch(err) {
         // do nothing
       }
     }
-    const currentWindow = await chrome.windows.getCurrent();
+    const currentWindow = await ext.windows.getCurrent();
     // @ts-ignore
     const windowLeft = currentWindow.left + currentWindow.width - POPUP_WIDTH;
     // @ts-ignore
     const windowTop = currentWindow.top || 0;
-    const openedWindow = await chrome.windows.create({
+    const openedWindow = await ext.windows.create({
       focused: true,
       url,
       width: POPUP_WIDTH,
@@ -1484,11 +1485,11 @@ export const startBackground = () => {
     return new Promise<void>(resolve => {
       const onRemovedCallback = (windowId: number): void => {
         if(windowId === window.id) {
-          chrome.windows.onRemoved.removeListener(onRemovedCallback);
+          ext.windows.onRemoved.removeListener(onRemovedCallback);
           resolve();
         }
       };
-      chrome.windows.onRemoved.addListener(onRemovedCallback);
+      ext.windows.onRemoved.addListener(onRemovedCallback);
     });
   };
 
@@ -1498,7 +1499,7 @@ export const startBackground = () => {
       return userAccount;
     }
     const urlPath = RouteBuilder.unlock.generateFullPath({});
-    const url = chrome.runtime.getURL(`index.html#${urlPath}?content=true`);
+    const url = ext.runtime.getURL(`index.html#${urlPath}?content=true`);
     const popup = await createPopupWindow(url);
     await waitForWindowClose(popup);
     userAccount = await getUserAccount();
@@ -1536,7 +1537,7 @@ export const startBackground = () => {
     if(!allowed) {
       const { favIconUrl = '', title = '' } = tab;
       const urlPath = RouteBuilder.connect.generateFullPath({});
-      const url = chrome.runtime.getURL(`index.html#${urlPath}?content=true&favicon=${encodeURIComponent(favIconUrl)}&title=${encodeURIComponent(title)}&origin=${encodeURIComponent(origin.toLowerCase())}`);
+      const url = ext.runtime.getURL(`index.html#${urlPath}?content=true&favicon=${encodeURIComponent(favIconUrl)}&title=${encodeURIComponent(title)}&origin=${encodeURIComponent(origin.toLowerCase())}`);
       const popup = await createPopupWindow(url);
       await waitForWindowClose(popup);
       const updatedUserAccount = await getUserAccount();
@@ -1550,7 +1551,7 @@ export const startBackground = () => {
     let activeAccount = await getActiveAccount();
     if(!activeAccount) {
       const urlPath = RouteBuilder.selectAccount.generateFullPath({});
-      const url = chrome.runtime.getURL(`index.html#${urlPath}?content=true`);
+      const url = ext.runtime.getURL(`index.html#${urlPath}?content=true`);
       const popup = await createPopupWindow(url);
       await waitForWindowClose(popup);
       activeAccount = await getActiveAccount();
@@ -1714,20 +1715,20 @@ export const startBackground = () => {
       chainId: cryptoAccount.chain,
       address: cryptoAccount.address,
     });
-    const url = chrome.runtime.getURL(`index.html#${urlPath}?amount=${encodeURIComponent(Number(amount) / 1000000)}&recipient=${encodeURIComponent(recipient)}&memo=${encodeURIComponent(memo || '')}&content=true`);
+    const url = ext.runtime.getURL(`index.html#${urlPath}?amount=${encodeURIComponent(Number(amount) / 1000000)}&recipient=${encodeURIComponent(recipient)}&memo=${encodeURIComponent(memo || '')}&content=true`);
     const popup = await createPopupWindow(url);
     let txid = '';
     const txidListener = (message: {type: string, payload: string}, sender: MessageSender) => {
       const { type, payload } = message;
       if(sender.tab?.windowId === popup.id && type === 'txid') {
-        chrome.runtime.onMessage.removeListener(txidListener);
+        ext.runtime.onMessage.removeListener(txidListener);
         txid = payload;
       }
     };
-    chrome.runtime.onMessage.addListener(txidListener);
+    ext.runtime.onMessage.addListener(txidListener);
     await waitForWindowClose(popup);
     if(!txid) {
-      chrome.runtime.onMessage.removeListener(txidListener);
+      ext.runtime.onMessage.removeListener(txidListener);
       throw new Error('Transaction cancelled.');
     }
     return {
@@ -1751,20 +1752,20 @@ export const startBackground = () => {
       chainId: cryptoAccount.chain,
       address: cryptoAccount.address,
     });
-    const url = chrome.runtime.getURL(`index.html#${urlPath}?message=${encodeURIComponent(message)}&content=true`);
+    const url = ext.runtime.getURL(`index.html#${urlPath}?message=${encodeURIComponent(message)}&content=true`);
     const popup = await createPopupWindow(url);
     let signature = '';
     const signatureListener = (message: {type: string, payload: string}, sender: MessageSender) => {
       const { type, payload } = message;
       if(sender.tab?.windowId === popup.id && type === 'signature') {
-        chrome.runtime.onMessage.removeListener(signatureListener);
+        ext.runtime.onMessage.removeListener(signatureListener);
         signature = payload;
       }
     };
-    chrome.runtime.onMessage.addListener(signatureListener);
+    ext.runtime.onMessage.addListener(signatureListener);
     await waitForWindowClose(popup);
     if(!signature) {
-      chrome.runtime.onMessage.removeListener(signatureListener);
+      ext.runtime.onMessage.removeListener(signatureListener);
       throw new Error('Sign cancelled.');
     }
     return {
@@ -1774,7 +1775,7 @@ export const startBackground = () => {
     };
   });
 
-  chrome.runtime.onInstalled.addListener(async ({ reason }) => {
+  ext.runtime.onInstalled.addListener(async ({ reason }) => {
     const logger = getLogger();
     if(reason === 'install') {
       logger.info('Extension installed!');
@@ -1782,7 +1783,7 @@ export const startBackground = () => {
     }
   });
 
-  chrome.runtime.onMessage.addListener((message) => {
+  ext.runtime.onMessage.addListener((message) => {
     if(message?.eventName) {
       return false;
     }
@@ -1790,7 +1791,7 @@ export const startBackground = () => {
     return false;
   });
 
-  chrome.alarms.onAlarm.addListener(async (alarm) => {
+  ext.alarms.onAlarm.addListener(async (alarm) => {
     switch(alarm.name) {
       case AlarmName.LOCK_USER_ACCOUNT: {
         await lockUserAccount();
@@ -1799,10 +1800,10 @@ export const startBackground = () => {
     }
   });
 
-  if (chrome.sidePanel) {
-    chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })
+  if (ext.sidePanel) {
+    ext.sidePanel.setPanelBehavior({ openPanelOnActionClick: true })
       .catch(console.error);
-    chrome.sidePanel.setOptions({ path: 'index.html?mode=sidepanel', enabled: true })
+    ext.sidePanel.setOptions({ path: 'index.html?mode=sidepanel', enabled: true })
       .catch(console.error);
   }
 

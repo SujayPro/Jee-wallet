@@ -1,9 +1,11 @@
+import { ext } from './browser-api';
+
 export class Messager {
 
-  _runtime: typeof chrome.runtime;
+  _runtime: typeof ext.runtime;
   _handlers: {[eventName: string]: (res: any, sender: chrome.runtime.MessageSender)=>Promise<any>} = {};
 
-  constructor(runtime: typeof chrome.runtime, listen = false) {
+  constructor(runtime: typeof ext.runtime = ext.runtime, listen = false) {
     this._runtime = runtime;
     if(listen) {
       this._listener = this._listener.bind(this);
@@ -15,7 +17,7 @@ export class Messager {
     // Security: only accept messages from our own extension (background ↔ popup/UI)
     // or from our own content scripts (which run in ISOLATED world).
     // Reject anything that arrives from an external web page or another extension.
-    const ownId = chrome.runtime.id;
+    const ownId = ext.runtime.id;
     const senderIsOwnExtension = sender.id === ownId;
     // Content scripts have a tab but no url starting with "chrome-extension://"
     const senderIsContentScript = !!(sender.tab && sender.id === ownId);
