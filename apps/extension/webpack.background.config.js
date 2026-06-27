@@ -30,6 +30,26 @@ module.exports = {
   experiments: {
     asyncWebAssembly: true,
   },
+  optimization: {
+    // AMO rejects any single JS file larger than 5 MB. Split the bundle into
+    // chunks well under that limit. The chunks use webpack's classic
+    // array-push runtime so they can be loaded both via importScripts()
+    // (Chrome service worker) and as ordered <script> tags (Firefox event
+    // page) — see scripts/bundle.js which wires them into the manifest.
+    splitChunks: {
+      chunks: 'all',
+      minSize: 300000,
+      maxSize: 3500000,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          priority: 10,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
   plugins: [
     new webpack.ProvidePlugin({
       Buffer: ['buffer', 'Buffer'],
@@ -50,7 +70,15 @@ module.exports = {
     },
   },
   output: {
-    filename: "background.js",
+    // The entry keeps the stable name the manifest's loader points at; every
+    // other (split) chunk gets a unique name so multiple chunks never collide.
+    filename: (pathData) =>
+      pathData.chunk.name === "main" ? "background.js" : "bg-[name]-[id].js",
+    chunkFilename: "bg-[name]-[id].js",
     path: path.join(__dirname, "dist"),
+    // Explicit publicPath avoids the runtime's document.currentScript probing,
+    // which would throw in a service worker (no document).
+    publicPath: "",
+    clean: false,
   },
 };
