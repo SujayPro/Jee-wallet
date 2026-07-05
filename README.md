@@ -34,9 +34,9 @@
 <br />
 
 ```
-     ██╗███████╗███████╗     ██╗    ██╗ █████╗ ██╗     ██╗     ███████╗████████╗
-     ██║██╔════╝██╔════╝     ██║    ██║██╔══██╗██║     ██║     ██╔════╝╚══██╔══╝
-     ██║█████╗  █████╗       ██║ █╗ ██║███████║██║     ██║     █████╗     ██║
+      ██╗███████╗███████╗     ██╗    ██╗ █████╗ ██╗     ██╗     ███████╗████████╗
+      ██║██╔════╝██╔════╝     ██║    ██║██╔══██╗██║     ██║     ██╔════╝╚══██╔══╝
+      ██║█████╗  █████╗       ██║ █╗ ██║███████║██║     ██║     █████╗     ██║
 ██   ██║██╔══╝  ██╔══╝       ██║███╗██║██╔══██║██║     ██║     ██╔══╝     ██║
 ╚█████╔╝███████╗███████╗     ╚███╔███╔╝██║  ██║███████╗███████╗███████╗   ██║
  ╚════╝ ╚══════╝╚══════╝      ╚══╝╚══╝ ╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝   ╚═╝
@@ -72,7 +72,7 @@
 - [Supported Browsers](#-supported-browsers)
 - [Chain Info](#%EF%B8%8F-chain-info)
 - [How It Works](#-how-it-works)
-- [Quick Start](#-quick-start)
+- [Quick Start & Reproducible Build Instructions](#-quick-start--reproducible-build-instructions)
 - [Install the Extension](#-install-the-extension)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
@@ -285,50 +285,46 @@ flowchart TB
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start & Reproducible Build Instructions
 
-### Prerequisites
+To verify the build integrity and generate the exact minified code used in the submitted add-on, follow these steps to build from the provided raw source code archive.
 
-| Tool | Version |
-|:---|:---:|
-| [Node.js](https://nodejs.org) | **18+** |
-| [npm](https://www.npmjs.com) | **9+** |
-| Git | any recent |
+### Environment Prerequisites
+- **Operating System:** Linux, macOS, or Windows (WSL recommended)
+- **Node.js:** Version `18.x` or `20.x` (LTS recommended)
+- **npm:** Version `9.x` or higher
 
-### 1 · Clone
+### Step-by-Step Reproduction Flow
 
-```sh
-git clone https://github.com/SujayPro/Jee-wallet.git
-cd Jee-wallet
-npm install
-```
+1. **Extract and Navigate**
+   Extract the provided source archive zip and open your terminal in the root directory:
+   ```sh
+   cd Jee-wallet
+   ```
 
-### 2 · Environment
+2. **Install Pure Dependencies**
+   Install all exact package dependencies via the official package manager without updating the lockfile:
+   ```sh
+   npm ci
+   ```
 
-```sh
-cp apps/extension/.env.example apps/extension/.env
-```
+3. **Configure the Environment**
+   Create the required local environment configuration files using the provided templates:
+   ```sh
+   cp apps/extension/.env.example apps/extension/.env
+   ```
+   *(Note: For the purpose of verifying the build output structure, the default mock/example endpoints in the template are sufficient).*
 
-Edit `apps/extension/.env`:
+4. **Execute Monorepo Compilation**
+   Run the production compilation suite managed via Turborepo. This compiles all internal packages (`packages/background`, `packages/content`, etc.) and bundles the production assets:
+   ```sh
+   npm run bundle
+   ```
 
-```env
-JEE_MAINNET_LCD=https://your-lcd-endpoint
-JEE_MAINNET_RPC=https://your-rpc-endpoint
-```
-
-Create `apps/extension-ui/.env.production.local`:
-
-```env
-REACT_APP_TOS_URL=https://jee.money/assets/tos.md
-```
-
-### 3 · Build
-
-```sh
-npm run bundle
-```
-
-✅ Output: **`apps/extension/dist`** (+ `apps/extension/dist.zip` for Firefox zip installs)
+### 📦 Build Artifact Verification
+- The compilation will output the production-ready unzipped extension files into: **`apps/extension/dist/`**
+- The deterministic compressed package matching your submission is generated at: **`apps/extension/dist.zip`**
+- **Reviewer Note:** The background scripts are split into chunks (`bg-vendors-*.js` and `background.js`) via Webpack to remain well under the 5 MB per-file evaluation ceiling. No remote code is injected or evaluated at runtime.
 
 ---
 
@@ -377,8 +373,6 @@ After `npm run bundle`, upload **`apps/extension/dist.zip`** to the [Firefox Dev
 | Data collection | **None** (`data_collection_permissions.required: ["none"]` in manifest) |
 | Privacy policy | [PRIVACY_POLICY.md](PRIVACY_POLICY.md) |
 | Source code | Submit the GitHub repo + build notes (`npm run bundle`) |
-
-**Build notes for reviewers:** the background bundle is split into `bg-vendors-*.js` chunks plus `background.js`. Firefox loads them via `background.scripts`; Chrome uses an auto-generated `sw.js` that calls `importScripts()`. Minified-code warnings (`eval`, `Function`, `innerHTML`) come from bundled React/crypto dependencies — no remote code is loaded at runtime.
 
 ---
 
