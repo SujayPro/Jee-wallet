@@ -291,8 +291,15 @@ To verify the build integrity and generate the exact minified code used in the s
 
 ### Environment Prerequisites
 - **Operating System:** Linux, macOS, or Windows (WSL recommended)
-- **Node.js:** Version `18.x` or `20.x` (LTS recommended)
-- **npm:** Version `9.x` or higher
+- **Node.js:** Version `24.18.0` LTS (required — Node 18/20 are no longer supported by Mozilla AMO)
+- **npm:** Version `11.x` or higher
+
+Install the required Node version with [nvm](https://github.com/nvm-sh/nvm):
+
+```sh
+nvm install 24.18.0
+nvm use
+```
 
 ### Step-by-Step Reproduction Flow
 
@@ -372,7 +379,7 @@ After `npm run bundle`, upload **`apps/extension/dist.zip`** to the [Firefox Dev
 | Categories | **Privacy & Security**, **Web Development** |
 | Data collection | **None** (`data_collection_permissions.required: ["none"]` in manifest) |
 | Privacy policy | [PRIVACY_POLICY.md](PRIVACY_POLICY.md) |
-| Source code | Submit the GitHub repo + build notes (`npm run bundle`) |
+| Source code | Submit the GitHub repo + build notes (`npm run build-for-amo` or `npm run bundle`) |
 
 ---
 

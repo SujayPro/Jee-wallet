@@ -1,7 +1,7 @@
 {
   "name": "JEE WALLET",
   "description": "JEE CRYPTO browser wallet for the JEE zero-fee Layer-1.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "manifest_version": 3,
   "minimum_chrome_version": "114",
   "browser_specific_settings": {

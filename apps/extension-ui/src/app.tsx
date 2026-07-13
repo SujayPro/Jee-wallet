@@ -222,8 +222,8 @@ export const App = () => {
       }
     };
 
-    let balancesInterval: NodeJS.Timer;
-    let transactionsInterval: NodeJS.Timer;
+    let balancesInterval: ReturnType<typeof setInterval> | undefined;
+    let transactionsInterval: ReturnType<typeof setInterval> | undefined;
     if(userStatus === UserStatus.UNLOCKED) {
       balancesInterval = setInterval(() => getAccountBalances(), 30000);
       transactionsInterval = setInterval(() => getAccountTransactions(true), 60000);
@@ -254,8 +254,8 @@ export const App = () => {
 
     }
     return () => {
-      clearInterval(balancesInterval);
-      clearInterval(transactionsInterval);
+      if (balancesInterval) clearInterval(balancesInterval);
+      if (transactionsInterval) clearInterval(transactionsInterval);
     };
   }, [dispatch, api, errorHandler, userStatus]);
 

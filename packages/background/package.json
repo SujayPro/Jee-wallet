@@ -21,7 +21,7 @@
     "@types/chrome": "^0.0.243",
     "@types/jest": "^27.5.2",
     "@types/mocha": "^8.2.3",
-    "@types/node": "^20.4.6",
+    "@types/node": "^24.0.0",
     "eslint": "^7.32.0",
     "eslint-config-custom": "*",
     "fs-extra": "^11.1.1",
