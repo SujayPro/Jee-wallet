@@ -54,10 +54,6 @@
 
 <br />
 
-<!-- Replace with your own demo GIF once you record one -->
-<!-- <img src="docs/assets/demo.gif" alt="JEE Wallet demo" width="720" /> -->
-<!-- **↑ Drop a screen recording in `docs/assets/demo.gif` and uncomment this line** -->
-
 </div>
 
 <br />
@@ -72,7 +68,7 @@
 - [Supported Browsers](#-supported-browsers)
 - [Chain Info](#%EF%B8%8F-chain-info)
 - [How It Works](#-how-it-works)
-- [Quick Start & Reproducible Build Instructions](#-quick-start--reproducible-build-instructions)
+- [Build from Source](#-build-from-source)
 - [Install the Extension](#-install-the-extension)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
@@ -106,25 +102,7 @@ Built for real users and real dApps:
 
 ## 📸 Screenshots
 
-<!-- Add your own images to docs/assets/ and update paths below -->
-
-<div align="center">
-
-| Unlock & Dashboard | Send Transaction | dApp Connect |
-|:---:|:---:|:---:|
-| <!-- `<img src="docs/assets/unlock.png" width="260" />` --> *Add screenshot* | <!-- `<img src="docs/assets/send.png" width="260" />` --> *Add screenshot* | <!-- `<img src="docs/assets/connect.png" width="260" />` --> *Add screenshot* |
-
-</div>
-
-<details>
-<summary><b>📁 How to add screenshots</b></summary>
-
-1. Create folder: `docs/assets/`
-2. Drop PNGs in (e.g. `unlock.png`, `send.png`, `connect.png`)
-3. Uncomment the `<img>` lines above
-4. Optional: record a GIF → `docs/assets/demo.gif` → uncomment hero GIF
-
-</details>
+Screenshots and a product demo will be added in a future release. For now, see [Releases](https://github.com/SujayPro/Jee-wallet/releases) to download and try the latest build.
 
 ---
 
@@ -285,53 +263,45 @@ flowchart TB
 
 ---
 
-## 🚀 Quick Start & Reproducible Build Instructions
+## 🚀 Build from Source
 
-To verify the build integrity and generate the exact minified code used in the submitted add-on, follow these steps to build from the provided raw source code archive.
+### Prerequisites
 
-### Environment Prerequisites
-- **Operating System:** Linux, macOS, or Windows (WSL recommended)
-- **Node.js:** Version `24.18.0` LTS (required — Node 18/20 are no longer supported by Mozilla AMO)
-- **npm:** Version `11.x` or higher
-
-Install the required Node version with [nvm](https://github.com/nvm-sh/nvm):
+| Requirement | Version |
+|:---|:---|
+| **Node.js** | `24.18.0` LTS ([nvm](https://github.com/nvm-sh/nvm) recommended) |
+| **npm** | `11.x` or higher |
+| **OS** | Linux, macOS, or Windows (WSL recommended) |
 
 ```sh
 nvm install 24.18.0
 nvm use
 ```
 
-### Step-by-Step Reproduction Flow
+### Build steps
 
-1. **Extract and Navigate**
-   Extract the provided source archive zip and open your terminal in the root directory:
-   ```sh
-   cd Jee-wallet
-   ```
+```sh
+git clone https://github.com/SujayPro/Jee-wallet.git
+cd Jee-wallet
+npm ci
+cp apps/extension/.env.example apps/extension/.env
+npm run bundle
+```
 
-2. **Install Pure Dependencies**
-   Install all exact package dependencies via the official package manager without updating the lockfile:
-   ```sh
-   npm ci
-   ```
+### Output
 
-3. **Configure the Environment**
-   Create the required local environment configuration files using the provided templates:
-   ```sh
-   cp apps/extension/.env.example apps/extension/.env
-   ```
-   *(Note: For the purpose of verifying the build output structure, the default mock/example endpoints in the template are sufficient).*
+| Artifact | Path | Purpose |
+|:---|:---|:---|
+| Unpacked extension | `apps/extension/dist/` | Load unpacked in Chrome, Brave, Edge, or Firefox |
+| Store package | `apps/extension/dist.zip` | Firefox Add-ons (AMO) upload |
 
-4. **Execute Monorepo Compilation**
-   Run the production compilation suite managed via Turborepo. This compiles all internal packages (`packages/background`, `packages/content`, etc.) and bundles the production assets:
-   ```sh
-   npm run bundle
-   ```
+The bundle script produces a standard ZIP archive with `manifest.json` at the archive root. Background scripts are split into webpack chunks (`bg-vendors-*.js`, `background.js`) to stay under AMO's 5 MB per-file limit. No remote code is loaded at runtime.
 
-### 📦 Build Artifact Verification
-- The compilation will output the production-ready unzipped extension files into: **`apps/extension/dist/`**
-- The deterministic compressed package matching your submission is generated at: **`apps/extension/dist.zip`**
-- **Reviewer Note:** The background scripts are split into chunks (`bg-vendors-*.js` and `background.js`) via Webpack to remain well under the 5 MB per-file evaluation ceiling. No remote code is injected or evaluated at runtime.
+For Mozilla AMO automated builds, use:
+
+```sh
+npm run build-for-amo
+```
 
 ---
 
@@ -355,31 +325,36 @@ chrome://extensions  →  Developer mode ON  →  Load unpacked  →  select dis
 about:debugging  →  Load Temporary Add-on  →  dist/manifest.json
 ```
 
-1. Run `npm run bundle`
+1. Build the extension (`npm run bundle`) or download a [release](https://github.com/SujayPro/Jee-wallet/releases)
 2. Open `about:debugging#/runtime/this-firefox`
-3. **Load Temporary Add-on…**
+3. Click **Load Temporary Add-on…**
 4. Select **`apps/extension/dist/manifest.json`**
 
-| ⚠️ Common mistake | Fix |
+> Temporary add-ons are cleared when Firefox restarts. Re-load from the same path after restart.
+
+| ⚠️ Issue | Solution |
 |:---|:---|
-| White blank popup | You loaded `extension/` instead of **`extension/dist/`** |
-| Invalid zip manifest | Don't zip the folder yourself — use `dist.zip` from bundle |
+| White blank popup | Load **`extension/dist/`**, not `extension/` |
+| Invalid zip on AMO | Use **`dist.zip`** from `npm run bundle` — do not zip manually |
 | dApp won't connect (Firefox) | Requires **Firefox 128+** |
 
 **Firefox sidebar:** `View → Sidebar → JEE WALLET`
 
-### Firefox Add-ons (AMO) submission
+<details>
+<summary><b>Firefox Add-ons (AMO) — developer notes</b></summary>
 
-After `npm run bundle`, upload **`apps/extension/dist.zip`** to the [Firefox Developer Hub](https://addons.mozilla.org/developers/). Do **not** zip the `dist/` folder yourself — the bundle script packs `manifest.json` at the archive root and splits the background script into chunks under AMO's 5 MB per-file limit.
+After `npm run build-for-amo`, upload **`apps/extension/dist.zip`** to the [Firefox Developer Hub](https://addons.mozilla.org/developers/).
 
 | Item | Value |
 |:---|:---|
 | Upload file | `apps/extension/dist.zip` |
-| Distribution | **On this site** (public AMO listing) |
-| Categories | **Privacy & Security**, **Web Development** |
-| Data collection | **None** (`data_collection_permissions.required: ["none"]` in manifest) |
+| Source code | This repository + build command above |
 | Privacy policy | [PRIVACY_POLICY.md](PRIVACY_POLICY.md) |
-| Source code | Submit the GitHub repo + build notes (`npm run build-for-amo` or `npm run bundle`) |
+| Data collection | None (`data_collection_permissions.required: ["none"]` in manifest) |
+
+Do not manually zip the `dist/` folder — the bundle script creates the correct archive structure.
+
+</details>
 
 ---
 
@@ -436,6 +411,7 @@ npm run dev          # Watch all packages
 npm run build        # Build packages
 npm run build-ui     # Build React UI only
 npm run bundle       # Full extension build + dist.zip
+npm run build-for-amo # Same as bundle — AMO-compatible output
 npm run test         # Run test suite
 npm run format       # Prettier format
 ```
@@ -506,7 +482,7 @@ Chrome 114+, Brave, Edge, and Firefox 128+. One `npm run bundle` produces a buil
 <details>
 <summary><b>Why is my Firefox popup white/blank?</b></summary>
 
-You almost certainly loaded the wrong folder. Load **`apps/extension/dist/manifest.json`**, not the parent `extension/` directory.
+You loaded the wrong folder. Select **`apps/extension/dist/manifest.json`**, not the parent `extension/` directory.
 
 </details>
 
@@ -528,14 +504,12 @@ Encrypted in extension local storage. Session keys (unlocked state) live in exte
 
 ## 🗺 Roadmap
 
-<!-- Customize this section — check items off as you ship -->
-
 - [x] Cross-browser support (Chrome, Brave, Edge, Firefox)
 - [x] HD & legacy wallet import
 - [x] dApp connect / sign / send
 - [x] Firefox sidebar panel
+- [x] AMO-ready build pipeline (`dist.zip`, manifest compliance)
 - [ ] Chrome Web Store listing
-- [x] Firefox Add-ons (AMO) submission-ready build (`dist.zip`, manifest compliance)
 - [ ] Firefox Add-ons (AMO) public listing approved
 - [ ] Hardware wallet support
 - [ ] Mobile companion app
