@@ -62,16 +62,16 @@ const { spawnSync } = require('child_process');
   );
 
   // Firefox/store zips need manifest.json at the archive root — not inside a
-  // dist/ folder. `-C distDir .` packs the folder *contents*, and shell:false
-  // avoids Windows arg-mangling that previously nested everything under dist/.
+  // dist/ folder. Run zip from inside distDir so archive paths are relative to
+  // the extension root (e.g. manifest.json, not dist/manifest.json).
   await fs.remove(zipPath);
   const zipResult = spawnSync(
-    'tar',
-    ['-caf', zipPath, '-C', distDir, '.'],
-    { stdio: 'inherit', shell: false }
+    'zip',
+    ['-r', zipPath, '.'],
+    { cwd: distDir, stdio: 'inherit', shell: false }
   );
   if (zipResult.status !== 0) {
-    console.warn('Could not create dist.zip (tar failed). Load manifest.json from dist/ instead.');
+    console.warn('Could not create dist.zip (zip failed). Load manifest.json from dist/ instead.');
   } else {
     console.log(`Packaged extension zip to ${zipPath}`);
   }
